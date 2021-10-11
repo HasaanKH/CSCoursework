@@ -10,10 +10,21 @@ public class MapGeneratorCustom: MonoBehaviour
     public GameObject tileset_3;
     public GameObject tileset_13;
     public GameObject tileset_27;
+    public GameObject obstacle_1;
+    public GameObject obstacle_2;
+    public GameObject obstacle_3;
+    Dictionary<int, GameObject> obstaclelist;
+    public int DensityofObstacles;
+
+
     int map_width = 48;
     int map_height = 27;
     List<List<int>> noise_grid = new List<List<int>>();
     List<List<GameObject>> tile_grid = new List<List<GameObject>>();
+    //List<List<int>> noiseobstacle_grid = new List<List<int>>();
+    //List<List<GameObject>> obstacletile_grid = new List<List<GameObject>>();
+
+
     // recommend 4 to 20
     float magnification = 14.0f;
     int x_offset = 0; // <- +>
@@ -28,6 +39,8 @@ public class MapGeneratorCustom: MonoBehaviour
         CreateTileGroups();
         GenerateMap();
         transform.Rotate(0,0,0); //for gravity it is placed on the x-plane.
+        //obstacles();
+        Obstacleplacement();
 
     }
     void CreateTileset()
@@ -97,5 +110,20 @@ public class MapGeneratorCustom: MonoBehaviour
         tile.name = string.Format("tile_x{0}_y{1}", x, y);
         tile.transform.localPosition = new Vector3(x, y, 0);
         tile_grid[x].Add(tile);
+    }
+
+    void Obstacleplacement()
+    {   
+        obstaclelist = new Dictionary<int, GameObject>(){{0, obstacle_1},{1, obstacle_2},{2, obstacle_3}};
+        for (int i = 0; i < DensityofObstacles; i++)
+        {
+            int x_position = Random.Range(0, map_width); //-25 as the map is shifted by 25
+            int y_position = Random.Range(0, map_height); //map is shifted by -10 down
+            GameObject obstructionprefab = obstaclelist[2];
+            obstructionprefab.transform.localPosition = new Vector3 (x_position, y_position, 0);
+            GameObject obstructiontile = Instantiate (obstructionprefab);
+            obstructiontile.name = string.Format("obstruction_x{0}_y{1}", x_position, y_position);
+
+        }
     }
 }

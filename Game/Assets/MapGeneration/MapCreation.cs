@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MapCreation : MonoBehaviour
 {
-    Dictionary<int, GameObject> tileset; //creates a set of the pre
+    Dictionary<int, GameObject> tileset; //creates a set of the prefabs.
     Dictionary<int, GameObject> tilegroups;
     Dictionary<GameObject, int> heuristic; //used in gridmap for pathfinding.
     public GameObject tile_1; //used to pick prefabs for tileset.
@@ -73,10 +73,8 @@ public class MapCreation : MonoBehaviour
             {
                 int tile_id = GetIdUsingPerlinNoise(x, y);
                 noise_grid[x].Add(tile_id);
-               //CreateTile(tile_id, x, y); adds tile to tile_grid
+                CreateTile(tile_id, x, y); //adds tile to tile_grid
             }
-
-
         }
     }
 
@@ -95,7 +93,7 @@ public class MapCreation : MonoBehaviour
         return Mathf.FloorToInt(scaled_perlin);
     }
 
-    /*void CreateTile(int tile_id, int x, int y)
+    void CreateTile(int tile_id, int x, int y)
     {
         GameObject tile_prefab = tileset[tile_id]; //gets the tile from dictionary based off scaled perlin
         GameObject tile_group = tilegroups[tile_id];
@@ -103,6 +101,6 @@ public class MapCreation : MonoBehaviour
         tile.name = string.Format("tile_x{0}_y{1}", x, y);
         tile.transform.localPosition = new Vector3(x, y, 0);
         tile_grid[x].Add(tile);
-    }*/
+    }
 
 }
