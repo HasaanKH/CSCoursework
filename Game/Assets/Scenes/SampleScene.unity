@@ -383,7 +383,7 @@ MonoBehaviour:
     type: 3}
   obstacle_3: {fileID: 94291416001749772, guid: 7ae5d8198be6f6b4d93d3cb376181e2c,
     type: 3}
-  DensityofObstacles: 10
+  DensityofObstacles: 30
 --- !u!1 &1444015185
 GameObject:
   m_ObjectHideFlags: 0
