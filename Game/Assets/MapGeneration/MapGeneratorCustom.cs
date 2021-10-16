@@ -6,6 +6,9 @@ public class MapGeneratorCustom: MonoBehaviour
 {
     Dictionary<int, GameObject> tileset;
     Dictionary<int, GameObject> tile_groups;
+    Dictionary<int, GameObject> obstacleset;
+    GameObject[] InstantObstructions;
+    private GameObject[] obstructionprefab;
     public GameObject tileset_0;
     public GameObject tileset_3;
     public GameObject tileset_13;
@@ -13,13 +16,10 @@ public class MapGeneratorCustom: MonoBehaviour
     public GameObject obstacle_1;
     public GameObject obstacle_2;
     public GameObject obstacle_3;
-    Dictionary<int, GameObject> obstacleset;
     public int DensityofObstacles; //choose how dense the map is littered with objects
-    GameObject[] InstantObstructions;
-    GameObject[] obstructionprefab;
 
-    int map_width = 48;
-    int map_height = 27;
+    public int map_width = 48;
+    public int map_height = 27;
     List<List<int>> noise_grid = new List<List<int>>();
     List<List<GameObject>> tile_grid = new List<List<GameObject>>();
 
@@ -37,7 +37,6 @@ public class MapGeneratorCustom: MonoBehaviour
         CreateTileset();
         CreateTileGroups();
         GenerateMap();
-        transform.Rotate(0,0,0); //for gravity it is placed on the x-plane.
         Obstacleplacement();
 
     }
@@ -47,9 +46,10 @@ public class MapGeneratorCustom: MonoBehaviour
             Best ordered to match land elevation. **/
         tileset = new Dictionary<int, GameObject>();
         tileset.Add(0, tileset_0);
-        tileset.Add(1, tileset_3);
+        tileset.Add(1, tileset_27);
         tileset.Add(2, tileset_13);
-        tileset.Add(3, tileset_27);
+        tileset.Add(3, tileset_3);
+
     }
     void CreateTileGroups()
     {
@@ -111,25 +111,25 @@ public class MapGeneratorCustom: MonoBehaviour
     }
 
     void Obstacleplacement()
-    {   
-        obstacleset = new Dictionary<int, GameObject>(){{0, obstacle_1},{1, obstacle_2},{2, obstacle_3}};
+    {
+        obstacleset = new Dictionary<int, GameObject>() { { 0, obstacle_1 }, { 1, obstacle_2 }, { 2, obstacle_3 } };
         InstantObstructions = new GameObject[DensityofObstacles];
         obstructionprefab = new GameObject[DensityofObstacles];
+        GameObject obstructiongrouping = new GameObject("ObstructionGrouping");
 
         for (int i = 0; i < DensityofObstacles; i++)
         {
-            int x_position = Random.Range(0, map_width); //-25 as the map is shifted by 25
-            int y_position = Random.Range(0, map_height); //map is shifted by -10 down
+            int x_position = Random.Range(0, map_width); 
+            int y_position = Random.Range(0, map_height); 
             int randomobject = Random.Range(0,3);
             obstructionprefab[i] = obstacleset[randomobject];
             List<int> noisegridcollumn = noise_grid[x_position];
             if (noisegridcollumn[y_position] != 0) //if not water, place obstruction
             {
-                InstantObstructions[i] = Instantiate(obstructionprefab[i]);
+                InstantObstructions[i] = Instantiate(obstructionprefab[i],obstructiongrouping.transform); //groups to obstructiongrouping
                 InstantObstructions[i].name = string.Format("obstruction_x{0}_y{1}", x_position, y_position);
                 InstantObstructions[i].transform.localPosition = new Vector3(x_position, y_position, 0);
-                
-
+        
             }
 
         }
