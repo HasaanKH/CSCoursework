@@ -8,7 +8,9 @@ public class MapGeneratorCustom: MonoBehaviour
     Dictionary<int, GameObject> tile_groups;
     Dictionary<int, GameObject> obstacleset;
     GameObject[] InstantObstructions;
-    private GameObject[] obstructionprefab;
+    GameObject[] obstructionprefab;
+    GameObject obstructiongrouping;
+
     public GameObject tileset_0;
     public GameObject tileset_3;
     public GameObject tileset_13;
@@ -17,7 +19,10 @@ public class MapGeneratorCustom: MonoBehaviour
     public GameObject obstacle_2;
     public GameObject obstacle_3;
     public int DensityofObstacles; //choose how dense the map is littered with objects
-
+    int randomobject;
+    int x_position;
+    int y_position;
+    List<int> noisegridcollumn;
     public int map_width = 48;
     public int map_height = 27;
     List<List<int>> noise_grid = new List<List<int>>();
@@ -115,13 +120,13 @@ public class MapGeneratorCustom: MonoBehaviour
         obstacleset = new Dictionary<int, GameObject>() { { 0, obstacle_1 }, { 1, obstacle_2 }, { 2, obstacle_3 } };
         InstantObstructions = new GameObject[DensityofObstacles];
         obstructionprefab = new GameObject[DensityofObstacles];
-        GameObject obstructiongrouping = new GameObject("ObstructionGrouping");
+        obstructiongrouping = new GameObject("ObstructionGrouping");
 
         for (int i = 0; i < DensityofObstacles; i++)
         {
-            int x_position = Random.Range(0, map_width); 
-            int y_position = Random.Range(0, map_height); 
-            int randomobject = Random.Range(0,3);
+            x_position = Random.Range(0, map_width); 
+            y_position = Random.Range(0, map_height); 
+            randomobject = Random.Range(0,3);
             obstructionprefab[i] = obstacleset[randomobject];
             List<int> noisegridcollumn = noise_grid[x_position];
             if (noisegridcollumn[y_position] != 0) //if not water, place obstruction

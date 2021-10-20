@@ -9,12 +9,8 @@ public class GridPF : MonoBehaviour
     public Vector2 GridSize;
     public float NodeRadius;
     public float Distance;
-
-    
-
     Node[,] Grid; //2d array
     public List<Node> FinalPath; //stores the shortest path
-
     float NodeDiameter;
     int GridSizeX, GridSizeY;
 
@@ -43,4 +39,20 @@ public class GridPF : MonoBehaviour
         }
     }
 
+    public Node NodeFromWorldPosition(Vector3 a_StartPos)
+    {
+        float x_point = a_StartPos.x / NodeDiameter;
+        float y_point = a_StartPos.y/ NodeDiameter;
+
+        x_point = Mathf.Clamp01(x_point);
+        y_point = Mathf.Clamp01(y_point);
+
+        x_point = x_point * (GridSizeX / NodeDiameter);
+        y_point = y_point * (GridSizeY / NodeDiameter); //finds the node position
+
+        int x = Mathf.RoundToInt(x_point);
+        int y = Mathf.RoundToInt(y_point);
+
+        return Grid[y, x];
+    }
 }

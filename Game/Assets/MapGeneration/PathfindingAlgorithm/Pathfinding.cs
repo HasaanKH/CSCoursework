@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class Pathfinding : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Grid Grid;
+    public Transform StartPosition;
+    public Transform TargetPosition;
+    
+
+    private void Awake()
     {
-        
+        Grid = GetComponent<Grid>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        
+        FindPath(StartPosition.position, GameObject.Find("astronaut_sprite").transform.position); //
     }
+
+    void FindPath (Vector3 a_StartPos, Vector3 a_TargetPos)
+    {
+        Node StartNode = Grid.NodeFromWorldPosition(a_StartPos);
+       
+    }
+
 }
