@@ -22,11 +22,11 @@ public class MapGeneratorCustom: MonoBehaviour
     int randomobject;
     int x_position;
     int y_position;
-    List<int> noisegridcollumn;
     public int map_width = 48;
     public int map_height = 27;
     List<List<int>> noise_grid = new List<List<int>>();
     List<List<GameObject>> tile_grid = new List<List<GameObject>>();
+    List<int> noisegridcollumn = new List<int>();
 
 
     // recommend 4 to 20
@@ -124,19 +124,11 @@ public class MapGeneratorCustom: MonoBehaviour
 
         for (int i = 0; i < DensityofObstacles; i++)
         {
-<<<<<<< HEAD
-            x_position = Random.Range(0, map_width); 
+            x_position = Random.Range(0, map_width);
             y_position = Random.Range(0, map_height); 
             randomobject = Random.Range(0,3);
             obstructionprefab[i] = obstacleset[randomobject];
             List<int> noisegridcollumn = noise_grid[x_position];
-=======
-            int x_position = Random.Range(0, map_width); //random x co-ordinate
-            int y_position = Random.Range(0, map_height); //random y co-ordinate
-            int randomobject = Random.Range(0,3); 
-            obstructionprefab[i] = obstacleset[randomobject]; //selects a random tile from the dictionary and stores this in an array
-            List<int> noisegridcollumn = noise_grid[x_position];//selects the collumn from noise-grid depending on the x co-ordinate.
->>>>>>> ffd4ca1ef5eef6f76d515657ffaa14fe52f520c1
             if (noisegridcollumn[y_position] != 0) //if not water, place obstruction
             {
                 InstantObstructions[i] = Instantiate(obstructionprefab[i],obstructiongrouping.transform); //groups to obstructiongrouping
