@@ -24,7 +24,7 @@ public class MapGeneratorCustom: MonoBehaviour
     int y_position;
     public int map_width = 48;
     public int map_height = 27;
-    List<List<int>> noise_grid = new List<List<int>>();
+    public List<List<int>> noise_grid = new List<List<int>>();
     List<List<GameObject>> tile_grid = new List<List<GameObject>>();
     List<int> noisegridcollumn = new List<int>();
 

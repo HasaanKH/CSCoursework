@@ -21,8 +21,8 @@ public class Pathfinding : MonoBehaviour
 
     void FindPath (Vector3 a_StartPos, Vector3 a_TargetPos)
     {
-        //Node StartNode = Grid.NodeFromWorldPosition(a_StartPos);
-       
+        Node StartNode = GetComponent<GridPF>().NodeFromWorldPosition(a_StartPos); //converts co-ordinates into specific nodes
+        Node TargetPosition = GetComponent<GridPF>().NodeFromWorldPosition(a_TargetPos);
     }
 
 }

@@ -5,7 +5,6 @@ using UnityEngine;
 public class GridPF : MonoBehaviour
 {
     public Transform StartPosition;
-    //omitted layer mask will use the noisegrid
     public Vector2 GridSize;
     public float NodeRadius;
     public float Distance;
@@ -27,32 +26,59 @@ public class GridPF : MonoBehaviour
         GridSize.x = GetComponent<MapGeneratorCustom>().map_width; //gets map width
         GridSize.y = GetComponent<MapGeneratorCustom>().map_height; //gets map height
         Grid = new Node[GridSizeY, GridSizeX]; //flipped compared to video
-        Vector3 BottomLeft = transform.position - Vector3.right * GridSize.x/2 - Vector3.forward * GridSize.y/2; //goes to bottom left of the map
+        Vector3 BottomLeft = transform.position - Vector3.right * GridSize.x / 2 - Vector3.forward * GridSize.y / 2; //goes to bottom left of the map, starts from (0,0,0)
 
-        for (int y = 0; y < GridSizeY; y++) //in video he uses x
+        for (int y = 0; y < Mathf.FloorToInt(GridSizeY/NodeDiameter); y++) //rounds down so that there is no out of bound error for the nodes.
         {
-            for (int x = 0; x < GridSizeX; x++)
+            for (int x = 0; x < Mathf.FloorToInt(GridSizeX/NodeDiameter); x++)
             {
                 Vector3 WorldPosition = BottomLeft + Vector3.right * (x * NodeDiameter + NodeRadius) + Vector3.forward * (y * NodeDiameter + NodeRadius);
-                Grid[y, x] = new Node(x, y, true, WorldPosition); //weird x,y behaviour
+                Grid[y, x] = new Node(y, x, true, WorldPosition, CalculateHeuristic(y, x), CalculateDistance(y,x) ); //weird x,y behaviour
             }
         }
     }
 
-    public Node NodeFromWorldPosition(Vector3 a_StartPos)
+    public Node NodeFromWorldPosition(Vector3 a_WorldPos)
     {
-        float x_point = a_StartPos.x / NodeDiameter;
-        float y_point = a_StartPos.y/ NodeDiameter;
+        float x_point = a_WorldPos.x / NodeDiameter;
+        float y_point = a_WorldPos.y/ NodeDiameter;
 
         x_point = Mathf.Clamp01(x_point);
         y_point = Mathf.Clamp01(y_point);
 
-        x_point = x_point * (GridSizeX / NodeDiameter);
-        y_point = y_point * (GridSizeY / NodeDiameter); //finds the node position
+        x_point *= (GridSizeX / NodeDiameter);
+        y_point *= (GridSizeY / NodeDiameter); //finds the node position
 
-        int x = Mathf.RoundToInt(x_point);
-        int y = Mathf.RoundToInt(y_point);
+        int x = Mathf.FloorToInt(x_point);
+        int y = Mathf.FloorToInt(y_point); //avoid out of bound errors with CreateGrid() hence use floor function.
 
         return Grid[y, x];
     }
+
+    int CalculateHeuristic(int row, int collumn)//finds heuristic for each node
+    {
+        List<List<int>> NoiseGrid = GetComponent<MapGeneratorCustom>().noise_grid; //gets noise_grid from MapGeneratorCustom.cs script
+        List<int> NoiseCollumn = NoiseGrid[Mathf.RoundToInt(collumn*(GridSizeX/NodeDiameter))]; //finds the corresponding row of the node.
+        string ObstructionName = string.Format("obstruction_x{0}_y{1}", collumn, row); //finds obstruction based on name
+
+        if (GameObject.Find(ObstructionName) == null) //if there is no obstruction
+        {
+            return NoiseCollumn[Mathf.RoundToInt(row * (GridSizeX / NodeDiameter))]; 
+        }
+        else
+        {
+            return 1000; //number is sufficiently high, therefore path algorithm avoides cells with obstructions.
+        }
+
+    }
+
+    int CalculateDistance(int y, int x) //calculates linear distance on x-y plane, z axis is fixed
+    {
+        Vector3 Targetposition = GameObject.Find("astronaut_sprite").transform.position;
+        int Distance = Mathf.RoundToInt(Mathf.Pow((Targetposition.x - x) * (Targetposition.x - x) + (Targetposition.y - 2) * (Targetposition.y - 2),1/2));
+        return Distance;
+        //MathPow is not used to square the inner terms as it is less efficient, see: https://stackoverflow.com/questions/936541/math-pow-vs-multiply-operator-performance#936909
+    }
+    //needs constant updating hence should not be apart of the node class
+
 }
