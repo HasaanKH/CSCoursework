@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridPF : MonoBehaviour
@@ -33,7 +35,7 @@ public class GridPF : MonoBehaviour
             for (int x = 0; x < Mathf.FloorToInt(GridSizeX/NodeDiameter); x++)
             {
                 Vector3 WorldPosition = BottomLeft + Vector3.right * (x * NodeDiameter + NodeRadius) + Vector3.forward * (y * NodeDiameter + NodeRadius);
-                Grid[y, x] = new Node(y, x, true, WorldPosition, CalculateHeuristic(y, x), CalculateDistance(y,x) ); //weird x,y behaviour
+                Grid[y, x] = new Node(y, x,WorldPosition, CalculateHeuristic(y, x)); //weird x,y behaviour
             }
         }
     }
@@ -81,4 +83,33 @@ public class GridPF : MonoBehaviour
     }
     //needs constant updating hence should not be apart of the node class
 
+    public Node AStarAlgorithm(Node a_StartNode) //more efficient to consider node-by-node basis rather than the whole 2d  array.
+    {
+        Dictionary<Node, int> OpenList = new Dictionary<Node, int>();
+        for (int x = -1; x < 2; x++) ///need to search 8 nodes around the startnode, however must take into account index ranges.
+        {
+            for (int y = -1; y < 2; y++) //STARTS FROM TOPLEFT DOWN THEN RIGHTWARD.
+            {
+                try
+                {
+                    OpenList.Add(Grid[a_StartNode.GridY + y,a_StartNode.GridX + x ], CalculateDistance(a_StartNode.GridY + y, a_StartNode.GridX + x) + a_StartNode.gCost);
+                }
+
+                catch (IndexOutOfRangeException)
+                {
+
+                }
+            }
+        }
+
+        var Ordered = OpenList.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value); //orders the dictionary see:https://stackoverflow.com/questions/289/how-do-you-sort-a-dictionary-by-value
+        FinalPath.Add(Ordered.ElementAt(0).Key); //returns node
+
+        if (Ordered.ElementAt(0).Key != NodeFromWorldPosition(GameObject.Find("astronaut_sprite").transform.position))
+        {
+            AStarAlgorithm(Ordered.ElementAt(0).Key);
+        }
+    }
+
+    
 }
