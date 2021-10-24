@@ -124,11 +124,11 @@ public class MapGeneratorCustom: MonoBehaviour
 
         for (int i = 0; i < DensityofObstacles; i++)
         {
-            x_position = Random.Range(0, map_width);
-            y_position = Random.Range(0, map_height); 
-            randomobject = Random.Range(0,3);
-            obstructionprefab[i] = obstacleset[randomobject];
-            List<int> noisegridcollumn = noise_grid[x_position];
+            int x_position = Random.Range(0, map_width); //random x co-ordinate
+            int y_position = Random.Range(0, map_height); //random y co-ordinate
+            int randomobject = Random.Range(0,3); 
+            obstructionprefab[i] = obstacleset[randomobject]; //selects a random tile from the dictionary and stores this in an array
+            List<int> noisegridcollumn = noise_grid[x_position];//selects the collumn from noise-grid depending on the x co-ordinate.
             if (noisegridcollumn[y_position] != 0) //if not water, place obstruction
             {
                 InstantObstructions[i] = Instantiate(obstructionprefab[i],obstructiongrouping.transform); //groups to obstructiongrouping
