@@ -370,8 +370,8 @@
 /Users/Hasaan/Documents/GitHub/CSCoursework/Game/Temp/bin/Debug/com.unity.quicksearch.pdb
 /Users/Hasaan/Documents/GitHub/CSCoursework/Game/Temp/bin/Debug/UnityEngine.TestRunner.pdb
 /Users/Hasaan/Documents/GitHub/CSCoursework/Game/Temp/bin/Debug/UnityEditor.TestRunner.pdb
-/Users/Hasaan/Documents/GitHub/CSCoursework/Game/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache
 /Users/Hasaan/Documents/GitHub/CSCoursework/Game/obj/Debug/Assembly-CSharp.csproj.CoreCompileInputs.cache
 /Users/Hasaan/Documents/GitHub/CSCoursework/Game/obj/Debug/Assembly-CSharp.csproj.CopyComplete
 /Users/Hasaan/Documents/GitHub/CSCoursework/Game/obj/Debug/Assembly-CSharp.dll
 /Users/Hasaan/Documents/GitHub/CSCoursework/Game/obj/Debug/Assembly-CSharp.pdb
+/Users/Hasaan/Documents/GitHub/CSCoursework/Game/obj/Debug/Assembly-CSharp.csproj.AssemblyReference.cache

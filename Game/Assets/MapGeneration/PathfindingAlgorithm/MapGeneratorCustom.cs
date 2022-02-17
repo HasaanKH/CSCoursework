@@ -19,20 +19,24 @@ public class MapGeneratorCustom: MonoBehaviour
     public GameObject obstacle_2;
     public GameObject obstacle_3;
     public int DensityofObstacles; //choose how dense the map is littered with objects
-    int randomobject;
+    /**int randomobject;
     int x_position;
-    int y_position;
+    int y_position;**/
     public int map_width = 48;
     public int map_height = 27;
     public List<List<int>> noise_grid = new List<List<int>>();
     List<List<GameObject>> tile_grid = new List<List<GameObject>>();
-    List<int> noisegridcollumn = new List<int>();
+    //List<int> noisegridcollumn = new List<int>();
 
 
     // recommend 4 to 20
     float magnification = 14.0f;
     int x_offset = 0; // <- +>
     int y_offset = 0; // v- +^
+
+    public Node[,] Nodetable;
+    int NodeDiameter = 1;
+    float NodeRadius = 1 / 2;
 
     void Start()
     {
@@ -43,6 +47,7 @@ public class MapGeneratorCustom: MonoBehaviour
         CreateTileGroups();
         GenerateMap();
         Obstacleplacement();
+        Create_grid();
 
     }
     void CreateTileset()
@@ -138,5 +143,44 @@ public class MapGeneratorCustom: MonoBehaviour
             }
 
         }
+    }
+
+    void Create_grid()
+    {
+        int GridSizeX = Mathf.FloorToInt(map_width/NodeDiameter);
+        int GridSizeY = Mathf.FloorToInt(map_height/NodeDiameter);
+
+        Vector3 BottomLeft = Vector3.zero; //goes to bottom left of the map, starts from (0,0,0)
+
+        for (int x = 0; x < GridSizeX; x++) //rounds down so that there is no out of bound error for the nodes.
+        {
+            for (int y = 0; y < GridSizeY; y++)
+            {
+                Vector3 WorldPosition = BottomLeft + Vector3.right * (x * NodeDiameter + NodeRadius) + Vector3.forward * (y * NodeDiameter + NodeRadius); //+noderadius used for centre of the node
+                Nodetable[y, x] = new Node(y, x, WorldPosition, CalculateHeuristic(y, x)); //weird x,y behaviour
+                Debug.Log(Nodetable[y,x]); //check if still null
+            }
+        }
+    }
+
+    int CalculateHeuristic(int row, int collumn)//finds heuristic for each node
+    {
+        
+        List<int> NoiseCollumn = noise_grid[Mathf.FloorToInt(collumn * NodeDiameter)]; //finds the corresponding row of the node.
+        if (Mathf.FloorToInt(collumn * NodeDiameter) > map_width)
+        {
+            Debug.Log("an argument exception has occured" + collumn);
+        }
+        string ObstructionName = string.Format("obstruction_x{0}_y{1}", collumn, row); //finds obstruction based on name
+
+        if (GameObject.Find(ObstructionName) == null) //if there is no obstruction
+        {
+            return NoiseCollumn[row * NodeDiameter];
+        }
+        else
+        {
+            return 1000; //number is sufficiently high, therefore path algorithm avoides cells with obstructions.
+        }
+
     }
 }

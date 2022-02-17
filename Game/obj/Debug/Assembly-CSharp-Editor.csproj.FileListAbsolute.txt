@@ -390,8 +390,8 @@
 /Users/Hasaan/Documents/GitHub/CSCoursework/Game/Temp/bin/Debug/UnityEditor.UI.pdb
 /Users/Hasaan/Documents/GitHub/CSCoursework/Game/Temp/bin/Debug/com.unity.quicksearch.pdb
 /Users/Hasaan/Documents/GitHub/CSCoursework/Game/Temp/bin/Debug/UnityEditor.iOS.Extensions.Xcode.pdb
-/Users/Hasaan/Documents/GitHub/CSCoursework/Game/obj/Debug/Assembly-CSharp-Editor.csprojAssemblyReference.cache
 /Users/Hasaan/Documents/GitHub/CSCoursework/Game/obj/Debug/Assembly-CSharp-Editor.csproj.CoreCompileInputs.cache
 /Users/Hasaan/Documents/GitHub/CSCoursework/Game/obj/Debug/Assembly-CSharp-Editor.csproj.CopyComplete
 /Users/Hasaan/Documents/GitHub/CSCoursework/Game/obj/Debug/Assembly-CSharp-Editor.dll
 /Users/Hasaan/Documents/GitHub/CSCoursework/Game/obj/Debug/Assembly-CSharp-Editor.pdb
+/Users/Hasaan/Documents/GitHub/CSCoursework/Game/obj/Debug/Assembly-CSharp-Editor.csproj.AssemblyReference.cache
