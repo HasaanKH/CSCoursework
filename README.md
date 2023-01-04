@@ -11,7 +11,8 @@ Here are a few images of the game:
 
 ![Map](https://user-images.githubusercontent.com/78858679/210461896-5172a71d-2de1-494a-ae30-f809b4ddf412.png)
 
-Technologies used; 
+Technologies used:
+
 This game was developed using Unity game engine using C#. An Object oriented paradigm was used to instantiate bots and maps alike. Perlin noise algorithm was used to procedurally generate maps. And Pathfinding was done through the A* algorithm.
 
 How to play this game:
